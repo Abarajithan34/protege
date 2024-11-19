@@ -2,26 +2,31 @@ name: Run Python Script Hourly
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour on the hour
-  workflow_dispatch:     # Allows manual triggering if needed
+    - cron: '0 * * * *' # Runs every hour on the hour
+  workflow_dispatch: # Allows manual triggering of the workflow
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      # Step 1: Checkout the repository to access the code
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-    - name: Set Up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      # Step 2: Set up Python environment
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      # Step 3: Install dependencies if `requirements.txt` exists
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Run Python Script
-      run: python script.py
+      # Step 4: Run the Python script
+      - name: Run Python Script
+        run: python adding_file.py
+
